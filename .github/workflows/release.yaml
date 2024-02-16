@@ -121,7 +121,7 @@ jobs:
         id: commit_info
 
       - name: Patch package version
-        run: sed -i -e 's/^version\.workspace = .*/version = "0.0.0-git.${{ steps.commit_info.outputs.ref }}"/' Cargo.toml
+        run: sed -i -e 's/^version\.workspace = .*/version = "0.0.0-git.${{ steps.commit_info.outputs.ref }}"/' cmds/jrsonnet/Cargo.toml
 
       - name: Add experimental flags
         if: ${{ inputs.experimental_features }}
