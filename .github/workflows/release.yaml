@@ -161,10 +161,16 @@ jobs:
       - name: Generate SHA-256
         run: shasum -a 256 ${{ matrix.name }} > ${{ matrix.name }}.sha256
 
+      - name: Get commit info
+        run: echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        id: commit_info
+
       - name: Publish
         uses: softprops/action-gh-release@v1
         with:
-          draft: true
+          prerelease: true
+          append_body: |
+            This release was generated from commit [CertainLach/jrsonnet@${{ steps.commit_info.outputs.ref }}](https://github.com/CertainLach/jrsonnet/commit/${{ steps.commit_info.outputs.ref }})
           files: "jrsonnet*"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
