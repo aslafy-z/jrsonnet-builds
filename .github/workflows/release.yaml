@@ -172,6 +172,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           prerelease: true
+          tag_name: ${{ inputs.tag }}
           append_body: |
             This release was generated from commit [CertainLach/jrsonnet@${{ steps.commit_info.outputs.ref }}](https://github.com/CertainLach/jrsonnet/commit/${{ steps.commit_info.outputs.ref }})
           files: "jrsonnet*"
