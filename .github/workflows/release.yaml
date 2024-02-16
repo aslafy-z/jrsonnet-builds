@@ -115,6 +115,13 @@ jobs:
           repository: 'CertainLach/jrsonnet'
           ref: ${{ inputs.source_ref }}
 
+      - name: Get commit info
+        run: echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+        id: commit_info
+
+      - name: Patch package version
+        run: sed -i -e 's/^version\.workspace = .*/version = "0.0.0-git.${{ steps.commit_info.outputs.ref }}"' Cargo.toml
+
       - name: Add experimental flags
         if: ${{ inputs.experimental_features }}
         run: echo 'EXPERIMENTAL_FLAGS=--features=experimental' >> $GITHUB_ENV
@@ -160,10 +167,6 @@ jobs:
 
       - name: Generate SHA-256
         run: shasum -a 256 ${{ matrix.name }} > ${{ matrix.name }}.sha256
-
-      - name: Get commit info
-        run: echo "ref=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
-        id: commit_info
 
       - name: Publish
         uses: softprops/action-gh-release@v1
