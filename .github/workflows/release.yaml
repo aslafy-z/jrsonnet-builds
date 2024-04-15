@@ -177,5 +177,6 @@ jobs:
           body: |
             This release was generated from commit [CertainLach/jrsonnet@${{ steps.commit_info.outputs.ref }}](https://github.com/CertainLach/jrsonnet/commit/${{ steps.commit_info.outputs.ref }})
           files: "jrsonnet*"
+          make_latest: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
